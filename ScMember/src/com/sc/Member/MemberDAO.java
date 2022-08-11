@@ -14,7 +14,7 @@ public class MemberDAO extends DAO {
 		return memberDao == null ? memberDao = new MemberDAO() : memberDao;
 		
 	}
-	//회원조회
+//	회원조회
 //	public List<Member> getMember() {
 //		List<Member> list = new ArrayList<>();
 //		Member member = null;

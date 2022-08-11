@@ -17,14 +17,17 @@ public class MemberManage extends DAO {
 		return mm;
 	}
 
+	
+
 	// 로그인
-	public Member loginInfo(String id) {
-		Member member = null;
+	public Member loginInfo(String id, String pw) {
+		Member member =null;
 		try {
 			conn();
-			String sql = "select * from scmember where scmember_id = ?";
+			String sql = "select * from scmember where scmember_id = ? and scmember_pw = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
 
 			rs = pstmt.executeQuery();
 
@@ -34,7 +37,6 @@ public class MemberManage extends DAO {
 				member.setScmemberPw(rs.getString("scmember_pw"));
 				member.setScmemberName(rs.getString("scmember_name"));
 				member.setRole(rs.getString("role"));
-
 			}
 
 		} catch (Exception e) {
@@ -43,7 +45,6 @@ public class MemberManage extends DAO {
 			disconnect();
 		}
 		return member;
-
 	}
 
 	// 회원 등록
@@ -71,7 +72,7 @@ public class MemberManage extends DAO {
 	}
 
 	// 회원 정보조회
-	public List<Member> getList(String scmemberId) {
+	public List<Member> getList() {
 		List<Member> list = new ArrayList<>();
 		Member member = null;
 		try {

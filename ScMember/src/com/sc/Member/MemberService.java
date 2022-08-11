@@ -9,15 +9,13 @@ public class MemberService {
 	public static Member memberInfo = null;
 
 	public void doLogin() {
-		Member member = new Member();
 		System.out.println("ID : ");
 		String id = scn.nextLine();
 		System.out.println("PW : ");
 		String pw = scn.nextLine();
-
-		member = MemberManage.getInstance().loginInfo(id);
-		if (member.getScmemberPw().equals(pw)) {
-			memberInfo = member;
+		Member a = MemberManage.getInstance().loginInfo(id, pw);
+		if (a != null ) {
+			memberInfo = a;
 		} else {
 			System.out.println("로그인 실패");
 		}
@@ -53,29 +51,30 @@ public class MemberService {
 		}
 
 	}
+
 	public void updateTel() {
 		Member member = new Member();
 		System.out.println("수정할 회원 ID : ");
 		String memberId = scn.nextLine();
-		
+
 		System.out.println("Tel 변경 : ");
 		String membertel = scn.nextLine();
-		
+
 		member.setScmemberId(memberId);
 		member.setScmemberTel(membertel);
-		
 		int result = MemberDAO.getInstance().updateTel(member);
-		
-		
-				
-		
-		
-		
+
+		if (result == 1) {
+			System.out.println("수정 완료");
+		} else {
+			System.out.println("수정 실패");
+		}
+ 
 	}
-	
+
 	// 회원 정보 조회
 	public void getMember() {
-		List<Member> list = MemberManage.getInstance().getList(memberInfo.getScmemberId());
+		List<Member> list = MemberManage.getInstance().getList();
 		for (Member member : list) {
 			System.out.println("이름 " + member.getScmemberName() + ", ID : " + member.getScmemberId() + ", 전화번호 : "
 					+ member.getScmemberTel());

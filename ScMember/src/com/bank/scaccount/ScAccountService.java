@@ -26,30 +26,17 @@ public class ScAccountService {
 	
 	
 	public void meney() {
-		
-		ScAccount scaccount = new ScAccount();
-		String scaccountId = null;
 		System.out.println("1.계좌 이체 | 2. 현금 결제");
 		int cmd = Integer.parseInt(scn.nextLine());
-//		System.out.println("2. 현금 ");
-		
-		
-		
 		if(cmd == 1) {
 			System.out.println("계좌 이체 > ");
-			System.out.println("계좌 번호 : ");
-		   scaccountId = scn.nextLine();
 			System.out.println("입급 할 금액 : ");
 			int money = Integer.parseInt(scn.nextLine());
-			scaccount.setScaccountId(scaccountId);
-			scaccount.setBalance(money);
 			
-			int result = ScAccountManage.getInstance().updateMoney(scaccount, cmd);
+			int result = ScAccountManage.getInstance().updateMoney(money);
 			
-			if(result == 1 && cmd  == 1) {
+			if(result == 1 ) {
 				System.out.println("입금 완료");
-			} else if(result == 1 && cmd == 2) {
-				System.out.println("현장 결제 신청 완료");
 			}
 		} else if (cmd == 2) {
 			System.out.println("현금 결제는 현장에서");
