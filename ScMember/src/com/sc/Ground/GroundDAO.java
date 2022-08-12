@@ -51,7 +51,7 @@ public class GroundDAO extends DAO {
 			pstmt.setString(1, ground.getGroundTime());
 			pstmt.setDate(2, date);
 			pstmt.setString(3, ground.getGroundName());
-			
+
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return false;
@@ -190,17 +190,7 @@ public class GroundDAO extends DAO {
 		List<Sales> list = new ArrayList<>();
 		Sales sales = null;
 
-//		if (month.length() == 1) {
-//			month = "0" + month;
-//		}
-
 		Date startDate = Date.valueOf(month);
-
-//		cal.set(2022, month, 1);
-//		int intGetEndDate = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-//		String strGetEndDate = String.valueOf(intGetEndDate);
-//		String strEndDate = "2022-" + strMonth + "-"+strGetEndDate;
-//		Date endDate = Date.valueOf(strEndDate);
 
 		try {
 			conn();
