@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.sc.Member.MemberManage;
 import com.sc.Member.MemberService;
 import com.sc.common.DAO;
 
@@ -52,6 +51,7 @@ public class GroundDAO extends DAO {
 			pstmt.setString(1, ground.getGroundTime());
 			pstmt.setDate(2, date);
 			pstmt.setString(3, ground.getGroundName());
+			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return false;
@@ -64,19 +64,26 @@ public class GroundDAO extends DAO {
 		return true;
 	}
 
-	public List<Ground> getList1(String ground) {
+	public List<Ground> getList1() {
 		List<Ground> list = new ArrayList<>();
 		Ground ground1 = null;
 		try {
 			conn();
-			String sql = "SELECT * from ground where ground";
+			String sql = "SELECT * from ground order by ground_date asc";
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
 				ground1 = new Ground();
-				ground1.setGroundName(rs.getString("scmember_id"));
-
+				ground1.setScmemberId(rs.getString("scmember_Id"));
+				ground1.setGroundDate(rs.getDate("ground_date"));
+				ground1.setGroundTime(rs.getString("ground_time"));
+				ground1.setGrBall(rs.getString("gr_Ball"));
+				ground1.setgrVest(rs.getString("gr_vest"));
+				ground1.setGrPrise(rs.getString("gr_Prise"));
+				ground1.setGroundName(rs.getString("ground_name"));
+				ground1.setScmemberName(rs.getString("scmember_Name"));
+				ground1.setGrPrise(sql);
 				list.add(ground1);
 			}
 
@@ -93,15 +100,21 @@ public class GroundDAO extends DAO {
 		Ground ground = null;
 		try {
 			conn();
-			String sql = "SELECT * from ground where scmember_id = ?";
+			String sql = "SELECT * from ground where scmember_id = ? order by ground_date asc";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberService.memberInfo.getScmemberId());
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				ground = new Ground();
+				ground.setScmemberId(rs.getString("scmember_Id"));
+				ground.setGroundDate(rs.getDate("ground_date"));
+				ground.setGroundTime(rs.getString("ground_time"));
+				ground.setGrBall(rs.getString("gr_Ball"));
+				ground.setgrVest(rs.getString("gr_vest"));
+				ground.setGrPrise(rs.getString("gr_Prise"));
 				ground.setGroundName(rs.getString("ground_name"));
-				ground.setGroundTime(rs.getNString("ground_time"));
+				ground.setScmemberName(rs.getString("scmember_Name"));
 				list.add(ground);
 			}
 
@@ -137,25 +150,6 @@ public class GroundDAO extends DAO {
 		}
 		return list;
 	}
-
-//	public void getDailySum(Date startDate) {
-//		int sum = 0;
-//		try {
-//			conn();
-//			String sql = "select balance from scaccount where credate = ?";
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setDate(1, startDate);
-//			rs = pstmt.executeQuery();
-//			while (rs.next()) {
-//				sum += rs.getInt("balance");
-//			}
-//			System.out.println("날짜 : " + startDate + ", 매출 : " + sum);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			disconnect();
-//		}
-//	}
 
 	public int getMonthlySum(int month) {
 		String strMonth = String.valueOf(month);
@@ -195,11 +189,11 @@ public class GroundDAO extends DAO {
 	public List<Sales> getMonthlyDailySum(String month) {
 		List<Sales> list = new ArrayList<>();
 		Sales sales = null;
-		
+
 //		if (month.length() == 1) {
 //			month = "0" + month;
 //		}
-	
+
 		Date startDate = Date.valueOf(month);
 
 //		cal.set(2022, month, 1);
@@ -207,13 +201,13 @@ public class GroundDAO extends DAO {
 //		String strGetEndDate = String.valueOf(intGetEndDate);
 //		String strEndDate = "2022-" + strMonth + "-"+strGetEndDate;
 //		Date endDate = Date.valueOf(strEndDate);
-		
+
 		try {
 			conn();
 			String sql = "select sum(balance) sum from scaccount where to_char(credate,'yyyy-mm-dd') = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setDate(1, startDate);
-			
+
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				sales = new Sales();

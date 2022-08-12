@@ -8,17 +8,29 @@ GR_BALL              VARCHAR2(20)
 GR_VEST              VARCHAR2(20) 
  */
 
+import java.sql.Date;
+
 public class Ground {
 
 	private String groundName; // 구장이름
 	private String groundTime; // 구장 시간
 	private String grPrise; // 구장 가격
 	private String grBall; // 공가격
-	private String Vest; // 조끼 가격
+	private String grVest; // 조끼 가격
 	private String scmemberId; // 예약자ID
 	private String scmemberName; //예약자 이름
-
+	private Date groundDate;
 	
+		
+
+	public Date getGroundDate() {
+		return groundDate;
+	}
+
+	public void setGroundDate(Date groundDate) {
+		this.groundDate = groundDate;
+	}
+
 	public String getScmemberName() {
 		return scmemberName;
 	}
@@ -59,12 +71,12 @@ public class Ground {
 		this.grBall = grBall;
 	}
 
-	public String getVest() {
-		return Vest;
+	public String getgrVest() {
+		return grVest;
 	}
 
-	public void setVest(String vest) {
-		Vest = vest;
+	public void setgrVest(String grvest) {
+		grVest = grvest;
 	}
 
 	public String getScmemberId() {
@@ -80,4 +92,5 @@ public class Ground {
 		return "Ground [구장이름 : =" + groundName + ", 구장 시간 : =" + groundTime + "]";
 	}
 
+	
 }

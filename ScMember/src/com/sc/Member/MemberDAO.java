@@ -14,32 +14,7 @@ public class MemberDAO extends DAO {
 		return memberDao == null ? memberDao = new MemberDAO() : memberDao;
 		
 	}
-//	회원조회
-//	public List<Member> getMember() {
-//		List<Member> list = new ArrayList<>();
-//		Member member = null;
-//		try {
-//			conn();
-//			String sql = "select scmember_id, scmember_name, scmember_tel from scmember";
-//			pstmt = conn.prepareStatement(sql);
-//			
-//			rs = pstmt.executeQuery();
-//			
-//			while(rs.next()) {
-//				member = new Member();
-//				member.setScmemberId(rs.getString("scmember_id"));
-//				member.setScmemberName(rs.getString("scmember_name"));
-//				member.setScmemberTel(rs.getNString("scmember_tel"));
-//				list.add(member);
-//			}
-//			
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			disconnect();
-//		}
-//		return list;
-//	}
+
 	//회원 수정
 	public int updateTel(Member member) {
 		int result = 0;

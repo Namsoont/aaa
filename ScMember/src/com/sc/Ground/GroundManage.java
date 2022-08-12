@@ -22,7 +22,7 @@ public class GroundManage extends DAO {
 		String groundTime = "";
 		switch (intGroundTime) {
 		case 1:
-			groundTime = "9:00~11:00";
+			groundTime = "09:00~11:00";
 			break;
 		case 2:
 			groundTime = "11:00~13:00";
@@ -55,32 +55,28 @@ public class GroundManage extends DAO {
 	}
 
 	public void adminGetGround() {
-		List<Ground> list = GroundDAO.getInstance().adminGetList();
+		List<Ground> list = GroundDAO.getInstance().getList1();
 		for (Ground ground : list) {
+			System.out.println("▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦");
 			System.out.println("예약자 ID : " + ground.getScmemberId() + " 구장이름:" + ground.getGroundName() + " 이용시간:"
-					+ ground.getGroundTime());
-
+					+ ground.getGroundTime() + " 예약 날짜 : " + ground.getGroundDate());
+			
+			
 		}
 	}
 
 	public void getGround() {
 		List<Ground> list = GroundDAO.getInstance().getList();
 		for (Ground ground : list) {
-			System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-			System.out.println("구장이름: " + ground.getGroundName() + "이용시간:" + ground.getGroundTime());
-			System.out.println("★★★★★★★★★ 대    여   비 ★★★★★★★★★");
-			System.out.println("★★★★★★★★★ 공: 10000원 ★★★★★★★★★");
-			System.out.println("★★★★★★★★★ 조끼: 15000원 ★★★★★★★★★");
-			System.out.println("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+			System.out.println("▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦");
+			System.out.println("▦▦구장이름: " + ground.getGroundName() + "이용시간:" + ground.getGroundTime() + " 이용 날짜 : "
+					+ ground.getGroundDate()+" ▦");
+			System.out.println("▦▦▦▦▦▦▦▦▦▦▦ 대   여  비 ▦▦▦▦▦▦▦▦▦▦");
+			System.out.println("▦▦▦▦▦▦▦▦▦▦▦ 공:10000원 ▦▦▦▦▦▦▦▦▦▦");
+			System.out.println("▦▦▦▦▦▦▦▦▦▦▦ 조끼:15000원 ▦▦▦▦▦▦▦▦▦▦");
+			System.out.println("▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦▦");
 		}
 	}
-
-//	public void getDaySum() {
-//		System.out.print("확인하고자 하는 일자를 입력하시오 > ");
-//		String strDay = scn.nextLine();
-//		Date day = Date.valueOf(strDay);
-//		GroundDAO.getInstance().getDailySum(day);
-//	}
 
 	public void getMonthlySum() {
 		System.out.print("확인하고자 하는 년도 와 월을 입력하시오 > ");
