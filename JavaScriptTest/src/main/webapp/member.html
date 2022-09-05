@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+div.container {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+ul {
+	list-style-type: none;
+}
+
+figure {
+	border: 1px solid green;
+	width: 700px;
+	float: left;
+}
+
+ul>li {
+	width: 100%;
+}
+
+label {
+	display: inline-block;
+	width: 150px;
+}
+
+div.add {
+	float: left;
+	width: 150px;
+	position: relative;
+	top: 100px;
+}
+
+.add button {
+	width: 100px;
+}
+
+div.content {
+	clear: both;
+	margin-left: 40px;
+}
+
+div.content th {
+	width: 135px;
+}
+
+div.content th:nth-child(1) {
+	width: 30px;
+}
+
+div.content td button {
+	margin-left: 40px;
+}
+</style>
+<script src="./js/mysource.js"></script>
+</head>
+
+<body>
+	<div class="container">
+
+		<h3>게시글 등록</h3>
+		<figure>
+			<figcaption>등록</figcaption>
+			<ul>
+				<li><label for="">게시글번호 </label><input type="number" id="bno"></li>
+				<li><label for="">제목 </label><input type="text" id="title"></li>
+				<li><label for="">내용 </label> <textarea cols="30" rows="3"
+						id="number" id="content"></textarea></li>
+				<li><label for="">작성자 </label><input type="number" id="writer"></li>
+			</ul>
+		</figure>
+		<div class="add">
+			<button id="addBtn">등록</button>
+			<button id="belBtn">선택삭제</button>
+		</div>
+
+		<div class="content">
+			<table border="1">
+				<thead>
+					<tr>
+						<th><input type="checkbox"></th>
+						<th>글번호</th>
+						<th>글제목</th>
+						<th>내용</th>
+						<th>작성자</th>
+						<th>작성일자</th>
+						<th>삭제</th>
+					</tr>
+				</thead>
+				<tbody id="list">
+					<tr>
+						<td><input type="checkbox" name="" id=""></td>
+						<td>100</td>
+						<td>문의입니다.</td>
+						<td>find함수는 어떻게 사용하나요?</td>
+						<td>hong123</td>
+						<td>2022-09-05</td>
+						<td><button>삭제</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+	
+	 let xhtp = new XMLHttpRequest();
+     xhtp.open('get', './BoardList') //요청페이지 요청방식 
+     xhtp.send(); //서버요청
+     xhtp.onload = function() {
+     
+      let data = JSON.parse(xhtp.response);
+      console.log(data); 
+      let list = document.getElementById('list');
+      data.forEach(data => {
+          let tr = makeTr(data);
+          list.append(tr);
+
+      })
+      
+  }
+	
+	
+		function modifyForm(btn) {
+			let chs = btn.parentElement.parentElement.children;
+			let bno = chs[0].textContent;
+			let title = chs[1].textContent;
+			let Conternt = chs[2].textContent;
+			let writer = chs[3].textContent;
+			 console.log(chs);
+			let tr = document.createElement('tr');
+
+		}
+
+		let addBtn = document.getElementById('addBtn');
+		addBtn.addEventListener('click', addBoardFnc);
+		function addBoardFnc() {
+
+			let um = document.getElementById('bb_bno').value; 
+			let ti = document.getElementById('bb_title').value;
+			let cn = document.getElementById('bb_Cn').value;
+			let param = 'bnm=' + um + '&bti=' + ti + '&bcn=' + cn;
+			console.log(addBoardFnc);
+			let addAjx = new XMLHttpRequest();
+			addAjx.open('post', '../BoardServlet');
+			addAjx.setRequestHeader('Content-type',
+					'application/x-www-form-urlencoded');
+			addAjx.send(param);
+			addAjx.onload = addMemberCallback;
+	
+		}
+        function makeTr(data) {
+            let tr = document.createElement('tr');
+            
+            let td0 = document.createElement('td');
+            let chkbox = document.createElement('input');
+            chkbox.setAttribute('type', 'checkbox');
+            td0.append(chkbox);
+            
+        	let txt1 = document.createTextNode(data.bno);
+        	let td1= document.createElement('td');
+        	td1.appendChild(txt1); 
+        
+		    let td2 = document.createElement('td');
+		    let txt2 = document.createTextNode(data.title);
+		    td2.appendChild(txt2); 
+        
+	        let td3 = document.createElement('td');
+	        let txt3 = document.createTextNode(data.content);
+	        td3.appendChild(txt3); 
+        
+	        let td4 = document.createElement('td');
+	        let txt4 = document.createTextNode(data.writer);
+	        td4.appendChild(txt4); 
+        
+	        let td5 = document.createElement('td');
+	        let txt5 = document.createTextNode(data.creation_date);
+	        td5.appendChild(txt5);
+	        
+	        let td6 = document.createElement('td');
+    	    let btn = document.createElement('button');
+        	// 삭제이벤트 : ajax 호출.
+	        btn.addEventListener('click', function(){
+	        	let delAjax = new XMLHttpRequest();
+	        	delAjax.open('post', '../BoardList');
+	        	delAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	        	delAjax.send('del_um='+this.parentElement.parentElement.firstElementChild.textContent);
+	        	console.log(this.parentElement.parentElement.firstElementChild.textContent);
+	        	delAjax.onload = function (e) {
+	        		let result = delAjax.responseText;
+	        		console.log(result);
+	        		if(result == 'success') {
+	        			btn.parentElement.parentElement.remove();
+	        		}else {
+	        			alert('처리중 에러발생.');
+	        		}
+	        	}
+	        })
+	        let txt6 = document.createTextNode('삭제');
+	        btn.append(txt6);
+	        td6.append(btn);
+       
+      
+      
+      
+
+        tr.append(td0, td1, td2, td3, td4, td5, td6);
+
+        return tr;
+    }
+	</script>
+</body>
+
+</html>
